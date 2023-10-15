@@ -1,49 +1,28 @@
 using Plots
 
-function gerador_question(N)
-    for i in 1:N
-        t_inicial = rand(1:100)
-        t_final = rand(1:100)
-        if t_final > t_inicial
-            println("1) Calcule os valores das cargas elétricas nos intervalos")
-            println("a) De t=0 a t=$t_final")
-            println("b) De t=$t_final a t= $(t_final+10)")
-            println("-"^55)
-        else
-            t_final, t_inicial = t_inicial, t_final
-            println("1) Calcule os valores das cargas elétricas nos intervalos")
-            println("a) De t=0 a t=$t_final")
-            println("b) De t=$t_final a t= $(t_final+10)")
-            println("-"^55)
-        end
-    end
-end
+# GRAFICOS PARA AS QUESTÕES DA PROVA SOBRE CORRENTE CONTÍNUA
 
-gerador_question(10)
-
-
-# GRAFICOS PARA AS QUESTÕES DA PROVA SOBRE CORRENTE ELÉTRICA
-function corrente_vs_tempo()
+# A FUNCAO corrente() VAI GERAR VARIOS DIVERSOS VALORES PARA INTENSIDADE DA CORRENTE CONTÍNUA
+function corrente()
     incremento = 100
     valor_max_corrente = rand(150:300)
     valor_min_corrente = rand(50:100)
     sort = rand([1,2])
-    if sort == 2
-        corrente = [fill(valor_max_corrente,2)' fill(valor_min_corrente,2)' fill(valor_max_corrente+incremento, 2)']
-    else
-        corrente = [ fill(valor_max_corrente+incremento, 2)' fill(valor_min_corrente,2)' fill(valor_max_corrente,2)']
-    end    
+    corrente = rand(Bool) ? [fill(valor_max_corrente,2)' fill(valor_min_corrente,2)' fill(valor_max_corrente+incremento, 2)'] : [ fill(valor_max_corrente+incremento, 2)' fill(valor_min_corrente,2)' fill(valor_max_corrente,2)']
+    # if sort == 2
+    #    corrente = [fill(valor_max_corrente,2)' fill(valor_min_corrente,2)' fill(valor_max_corrente+incremento, 2)']
+    # else
+    #    corrente = [ fill(valor_max_corrente+incremento, 2)' fill(valor_min_corrente,2)' fill(valor_max_corrente,2)']
+    #end    
     return corrente, valor_max_corrente, valor_min_corrente
 end
 
 
-#tempo = [0, 10, 15, 20, 25,35]
-
-# GRÁFICO PARA QUESTÂO 1)
+# FUNCAO QUE IRÁ GERAR VARIOS GRÁFICOS DIFERENTES 
 function gerar_gra(N)
     for i in 1:N
         tempo = sort(rand(0:5:100,6))
-        valores_corren, valor_max_corrente, valor_min_corrente = corrente_vs_tempo() 
+        valores_corren, valor_max_corrente, valor_min_corrente = corrente() 
         plot(tempo, valores_corren',
         lw=3.,
         ylims=[0,450],
@@ -54,7 +33,7 @@ function gerar_gra(N)
         ylabel="I (A)",
         xticks=tempo,
         grid=:dash,
-        alpha=1.
+        alpha=1.,
         title="Graf$i"
 
     )
